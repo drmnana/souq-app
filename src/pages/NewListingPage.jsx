@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { useApp, CATEGORIES, SYRIAN_CITIES } from '../AppContext';
-import { storageService } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 export default function NewListingPage({ setPage }) {
-  const { user, profile, addListing, isDemo } = useApp();
+  const { user, profile, addListing } = useApp();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     category: '', subcategory: '', title: '', description: '',
@@ -12,7 +12,6 @@ export default function NewListingPage({ setPage }) {
     listing_type: 'بيع', area: '', rooms: '', bathrooms: '',
     year: '', mileage: '', color: ''
   });
-  const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -32,16 +31,23 @@ export default function NewListingPage({ setPage }) {
 
   const handleImageUpload = async (files) => {
     setUploading(true);
+    setError('');
     const newUrls = [];
     for (const file of Array.from(files).slice(0, 5 - imageUrls.length)) {
-      if (isDemo) {
-        const localUrl = URL.createObjectURL(file);
-        newUrls.push(localUrl);
-      } else {
-        try {
-          const url = await storageService.uploadImage(file);
-          newUrls.push(url);
-        } catch (e) { console.error(e); }
+      try {
+        const ext = file.name.split('.').pop().toLowerCase();
+        const fileName = `listings/${user.id}/${Date.now()}.${ext}`;
+        const { data, error: uploadError } = await supabase.storage
+          .from('listing-images')
+          .upload(fileName, file, { cacheControl: '3600', upsert: false });
+        if (uploadError) throw uploadError;
+        const { data: { publicUrl } } = supabase.storage
+          .from('listing-images')
+          .getPublicUrl(fileName);
+        newUrls.push(publicUrl);
+      } catch (e) {
+        console.error('Upload error:', e);
+        setError('فشل رفع الصورة: ' + e.message);
       }
     }
     setImageUrls(prev => [...prev, ...newUrls]);
@@ -56,10 +62,17 @@ export default function NewListingPage({ setPage }) {
     }
     setError('');
     try {
-      await addListing({ ...form, price: parseFloat(form.price) || 0, images: imageUrls });
+      await addListing({
+        ...form,
+        price: parseFloat(form.price) || 0,
+        images: imageUrls,
+        user_id: user.id,
+        seller_name: form.seller_name || profile?.name || '',
+      });
       setSubmitted(true);
     } catch (e) {
-      setError('حدث خطأ أثناء نشر الإعلان: ' + e.message);
+      console.error('Submit error:', e);
+      setError('حدث خطأ: ' + e.message);
     }
   };
 
@@ -70,13 +83,15 @@ export default function NewListingPage({ setPage }) {
         تم استلام إعلانك!
       </h2>
       <div style={{ background: '#fff3cd', border: '1px solid #ffc107', borderRadius: 10, padding: 16, maxWidth: 400, margin: '0 auto 28px', fontSize: 14 }}>
-        ⏳ إعلانك قيد المراجعة. سيظهر للعموم خلال 24 ساعة بعد موافقة الإدارة.
+        ⏳ إعلانك قيد المراجعة. سيظهر للعموم بعد موافقة الإدارة.
       </div>
       <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         <button className="btn-primary" onClick={() => setPage('listings')}>عرض الإعلانات</button>
-        <button className="btn-outline" onClick={() => { setSubmitted(false); setForm({ category:'', subcategory:'', title:'', description:'', price:'', currency:'USD', location:'', contact:profile?.phone||'', seller_name:profile?.name||'', listing_type:'بيع', area:'', rooms:'', bathrooms:'', year:'', mileage:'', color:'' }); setImageUrls([]); setStep(1); }}>
-          إضافة إعلان آخر
-        </button>
+        <button className="btn-outline" onClick={() => {
+          setSubmitted(false);
+          setForm({ category:'', subcategory:'', title:'', description:'', price:'', currency:'USD', location:'', contact: profile?.phone||'', seller_name: profile?.name||'', listing_type:'بيع', area:'', rooms:'', bathrooms:'', year:'', mileage:'', color:'' });
+          setImageUrls([]); setStep(1);
+        }}>إضافة إعلان آخر</button>
       </div>
     </div>
   );
@@ -85,7 +100,7 @@ export default function NewListingPage({ setPage }) {
     <div className="page-enter" style={{ padding: '30px 0 60px' }}>
       <div className="container" style={{ maxWidth: 700 }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 28, marginBottom: 6 }}>إضافة إعلان جديد</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 30 }}>مجاناً الآن — نشر فوري بعد المراجعة</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 30 }}>مجاناً — نشر بعد المراجعة</p>
 
         <div style={{ display: 'flex', marginBottom: 30, gap: 4 }}>
           {['الفئة', 'التفاصيل والصور', 'السعر والتواصل'].map((s, i) => (
@@ -129,11 +144,11 @@ export default function NewListingPage({ setPage }) {
             <div>
               <h3 style={stepTitle}>تفاصيل الإعلان والصور</h3>
               <FF label="عنوان الإعلان *">
-                <input value={form.title} onChange={e => set('title', e.target.value)} placeholder="مثال: شقة للبيع في دمشق / تويوتا كامري 2020" />
+                <input value={form.title} onChange={e => set('title', e.target.value)} placeholder="مثال: شقة للبيع في دمشق" />
               </FF>
               <FF label="وصف الإعلان *">
                 <textarea value={form.description} onChange={e => set('description', e.target.value)}
-                  placeholder="اكتب وصفاً تفصيلياً يساعد المشترين على اتخاذ قرارهم..." rows={5}
+                  placeholder="اكتب وصفاً تفصيلياً..." rows={5}
                   style={{ resize: 'vertical', fontFamily: 'var(--font-body)' }}/>
               </FF>
 
@@ -152,31 +167,23 @@ export default function NewListingPage({ setPage }) {
                 </div>
               )}
 
-              {/* Image Upload */}
-              <FF label={`الصور (${imageUrls.length}/5)`}>
-                <div
-                  onClick={() => fileRef.current?.click()}
-                  style={{
-                    border: '2px dashed var(--border)', borderRadius: 10, padding: '24px',
-                    textAlign: 'center', cursor: 'pointer', background: '#fafafa',
-                    transition: 'all 0.2s', marginBottom: 12
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--brand-secondary)'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-                >
+              <FF label={`الصور (${imageUrls.length}/5) — اختياري`}>
+                <div onClick={() => !uploading && fileRef.current?.click()} style={{
+                  border: '2px dashed var(--border)', borderRadius: 10, padding: '24px',
+                  textAlign: 'center', cursor: uploading ? 'wait' : 'pointer', background: '#fafafa', marginBottom: 12
+                }}>
                   {uploading ? (
-                    <div style={{ color: 'var(--brand-primary)' }}>⏳ جاري الرفع...</div>
+                    <div style={{ color: 'var(--brand-primary)', fontFamily: 'var(--font-body)' }}>⏳ جاري الرفع...</div>
                   ) : (
                     <>
                       <div style={{ fontSize: 32, marginBottom: 8 }}>📸</div>
-                      <div style={{ fontWeight: 600, color: 'var(--brand-primary)', marginBottom: 4 }}>اضغط لرفع الصور</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>JPG, PNG حتى 5MB لكل صورة — حتى 5 صور</div>
+                      <div style={{ fontWeight: 600, color: 'var(--brand-primary)', marginBottom: 4, fontFamily: 'var(--font-body)' }}>اضغط لرفع الصور</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>JPG أو PNG — حتى 5 صور</div>
                     </>
                   )}
                 </div>
-                <input ref={fileRef} type="file" multiple accept="image/*" style={{ display: 'none' }}
+                <input ref={fileRef} type="file" multiple accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }}
                   onChange={e => handleImageUpload(e.target.files)} />
-
                 {imageUrls.length > 0 && (
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                     {imageUrls.map((url, i) => (
@@ -184,8 +191,7 @@ export default function NewListingPage({ setPage }) {
                         <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }} />
                         <button onClick={() => removeImage(i)} style={{
                           position: 'absolute', top: -6, right: -6, background: 'red', color: 'white',
-                          border: 'none', borderRadius: '50%', width: 20, height: 20, cursor: 'pointer',
-                          fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center'
+                          border: 'none', borderRadius: '50%', width: 20, height: 20, cursor: 'pointer', fontSize: 11
                         }}>✕</button>
                         {i === 0 && <div style={{ position: 'absolute', bottom: 2, right: 2, background: 'var(--brand-primary)', color: 'white', fontSize: 9, padding: '1px 5px', borderRadius: 4 }}>رئيسية</div>}
                       </div>
@@ -204,11 +210,11 @@ export default function NewListingPage({ setPage }) {
           {step === 3 && (
             <div>
               <h3 style={stepTitle}>السعر ومعلومات التواصل</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 140px', gap: 12, marginBottom: 4 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 140px', gap: 12 }}>
                 <FF label="السعر *"><input type="number" value={form.price} onChange={e => set('price', e.target.value)} placeholder="50000" /></FF>
                 <FF label="العملة">
                   <select value={form.currency} onChange={e => set('currency', e.target.value)}>
-                    <option value="USD">دولار أمريكي</option>
+                    <option value="USD">دولار</option>
                     <option value="SYP">ليرة سورية</option>
                   </select>
                 </FF>
@@ -221,7 +227,7 @@ export default function NewListingPage({ setPage }) {
                   </select>
                 </FF>
               )}
-              <FF label="المحافظة / الموقع *">
+              <FF label="المحافظة *">
                 <select value={form.location} onChange={e => set('location', e.target.value)}>
                   <option value="">اختر المحافظة</option>
                   {SYRIAN_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -231,7 +237,7 @@ export default function NewListingPage({ setPage }) {
                 <input value={form.contact} onChange={e => set('contact', e.target.value)} placeholder="+963 9XX XXX XXX" />
               </FF>
               <FF label="اسمك">
-                <input value={form.seller_name} onChange={e => set('seller_name', e.target.value)} />
+                <input value={form.seller_name} onChange={e => set('seller_name', e.target.value)} placeholder={profile?.name || ''} />
               </FF>
 
               {error && <div style={{ background: '#ffebee', color: '#c62828', padding: 12, borderRadius: 8, marginBottom: 16, fontSize: 14 }}>⚠️ {error}</div>}
