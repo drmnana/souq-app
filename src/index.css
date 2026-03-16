@@ -114,3 +114,44 @@ input:focus, select:focus, textarea:focus {
 @keyframes fadeIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
 .fade-in { animation: fadeIn 0.4s ease forwards; }
 .page-enter { animation: fadeIn 0.35s ease; }
+
+/* ─── MOBILE RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .container { padding: 0 14px; }
+
+  .btn-primary, .btn-accent, .btn-outline {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  /* New listing steps */
+  .step-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Admin dashboard tabs wrap */
+  .admin-tabs {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  /* Cards full width on very small screens */
+  @media (max-width: 400px) {
+    .listing-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+/* Touch targets minimum 44px */
+@media (max-width: 768px) {
+  button, select, input {
+    min-height: 44px;
+  }
+  select { font-size: 16px; } /* prevents iOS zoom */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea { font-size: 16px; } /* prevents iOS zoom */
+}

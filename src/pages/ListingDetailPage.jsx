@@ -23,7 +23,7 @@ export default function ListingDetailPage({ listing, setPage }) {
   };
 
   return (
-    <div className="page-enter" style={{ padding: '30px 0 60px' }}>
+    <><MobileStyles /><div className="page-enter" style={{ padding: '20px 0 60px' }}>
       <div className="container">
         {/* Back */}
         <button onClick={() => setPage('listings')} style={{
@@ -34,7 +34,7 @@ export default function ListingDetailPage({ listing, setPage }) {
           ← العودة للإعلانات
         </button>
 
-        <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }} className="detail-layout">
           {/* Left: Images + Details */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {/* Main image */}
@@ -98,7 +98,7 @@ export default function ListingDetailPage({ listing, setPage }) {
           </div>
 
           {/* Right: Price + Contact */}
-          <div style={{ width: 300, flexShrink: 0 }}>
+          <div style={{ width: 300, flexShrink: 0 }} className="detail-sidebar">
             {/* Price card */}
             <div style={{
               background: 'white', borderRadius: 'var(--radius-md)',
@@ -189,7 +189,18 @@ export default function ListingDetailPage({ listing, setPage }) {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
+  );
+}
+
+function MobileStyles() {
+  return (
+    <style>{`
+      @media (max-width: 768px) {
+        .detail-layout { flex-direction: column-reverse !important; }
+        .detail-sidebar { width: 100% !important; }
+      }
+    `}</style>
   );
 }
 

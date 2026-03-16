@@ -68,7 +68,7 @@ export default function HomePage({ setPage, setSelectedListing }) {
           {/* Search Bar */}
           <div style={{
             background: 'white', borderRadius: 14, padding: 8,
-            display: 'flex', gap: 8, maxWidth: 700, margin: '0 auto',
+            display: 'flex', flexWrap: 'wrap', gap: 8, maxWidth: 700, margin: '0 auto',
             boxShadow: '0 8px 40px rgba(0,0,0,0.3)'
           }}>
             <input
@@ -89,7 +89,7 @@ export default function HomePage({ setPage, setSelectedListing }) {
           </div>
 
           {/* Quick stats */}
-          <div style={{ display: 'flex', gap: 24, justifyContent: 'center', marginTop: 36, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 28, flexWrap: 'wrap' }}>
             {[
               { n: `${listings.length}+`, l: 'إعلان نشط' },
               { n: '13', l: 'محافظة' },
