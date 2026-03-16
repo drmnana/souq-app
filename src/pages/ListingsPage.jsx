@@ -1,13 +1,12 @@
-import { useApp } from '../AppContext';
-import { CATEGORIES, SYRIAN_CITIES } from '../AppContext';
+import { useApp, CATEGORIES, SYRIAN_CITIES } from '../AppContext';
 import ListingCard from '../components/ListingCard';
 
 export default function ListingsPage({ setPage, setSelectedListing }) {
   const {
-    Listings, searchQuery, setSearchQuery,
+    listings, searchQuery, setSearchQuery,
     selectedCategory, setSelectedCategory,
     selectedCity, setSelectedCity,
-    sortBy, setSortBy
+    sortBy, setSortBy, totalCount
   } = useApp();
 
   return (
@@ -15,7 +14,6 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
       <div className="container">
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
 
-          {/* Sidebar Filters */}
           <aside style={{
             width: 240, flexShrink: 0,
             background: 'white', borderRadius: 'var(--radius-md)',
@@ -27,14 +25,12 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
               🔍 تصفية النتائج
             </h3>
 
-            {/* Search */}
             <div style={{ marginBottom: 16 }}>
               <label style={labelStyle}>بحث</label>
               <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 placeholder="ماذا تبحث عن؟" />
             </div>
 
-            {/* Category */}
             <div style={{ marginBottom: 16 }}>
               <label style={labelStyle}>الفئة</label>
               <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
@@ -43,7 +39,6 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
               </select>
             </div>
 
-            {/* City */}
             <div style={{ marginBottom: 16 }}>
               <label style={labelStyle}>المدينة / المحافظة</label>
               <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)}>
@@ -52,7 +47,6 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
               </select>
             </div>
 
-            {/* Sort */}
             <div style={{ marginBottom: 20 }}>
               <label style={labelStyle}>ترتيب حسب</label>
               <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
@@ -75,16 +69,14 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
             </button>
           </aside>
 
-          {/* Main content */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            {/* Results header */}
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               marginBottom: 20, background: 'white', padding: '12px 16px',
               borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-sm)'
             }}>
               <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--text-primary)' }}>
-                <span style={{ color: 'var(--brand-primary)', fontSize: 18 }}>{filteredListings.length}</span>
+                <span style={{ color: 'var(--brand-primary)', fontSize: 18 }}>{listings.length}</span>
                 <span style={{ color: 'var(--text-muted)', fontSize: 14, marginRight: 6 }}>إعلان</span>
               </span>
               {selectedCategory !== 'all' && (
@@ -94,7 +86,7 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
               )}
             </div>
 
-            {filteredListings.length === 0 ? (
+            {listings.length === 0 ? (
               <div style={{
                 textAlign: 'center', padding: '80px 20px',
                 background: 'white', borderRadius: 'var(--radius-lg)'
@@ -111,7 +103,7 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
                 gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
                 gap: 20
               }}>
-                {Listings.map(l => (
+                {listings.map(l => (
                   <ListingCard key={l.id} listing={l} onClick={() => {
                     setSelectedListing(l);
                     setPage('listing-detail');

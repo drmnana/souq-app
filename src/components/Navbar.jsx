@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useApp } from '../AppContext';
 
 export default function Navbar({ page, setPage }) {
-  const { user, logout, filteredListings } = useApp();
+  const { user, profile, logout } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -40,7 +40,7 @@ export default function Navbar({ page, setPage }) {
           <NavBtn active={page === 'home'} onClick={() => setPage('home')}>الرئيسية</NavBtn>
           <NavBtn active={page === 'listings'} onClick={() => setPage('listings')}>الإعلانات</NavBtn>
           {user && <NavBtn active={page === 'my-listings'} onClick={() => setPage('my-listings')}>إعلاناتي</NavBtn>}
-          {user?.role === 'admin' && (
+          {(profile?.role === 'admin' || user?.role === 'admin') && (
             <NavBtn active={page === 'admin'} onClick={() => setPage('admin')}>
               <span style={{ color: 'var(--brand-accent)' }}>⚡ لوحة الإدارة</span>
             </NavBtn>
@@ -52,7 +52,7 @@ export default function Navbar({ page, setPage }) {
           {user ? (
             <>
               <span style={{ color: '#aaa', fontSize: 14, fontFamily: 'var(--font-body)' }}>
-                أهلاً، {user.name}
+                أهلاً، {profile?.name || user?.email?.split('@')[0]}
               </span>
               <button className="btn-accent" onClick={() => setPage('new-listing')}
                 style={{ padding: '8px 16px', fontSize: 14 }}>
