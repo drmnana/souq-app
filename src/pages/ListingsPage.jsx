@@ -4,7 +4,7 @@ import ListingCard from '../components/ListingCard';
 
 export default function ListingsPage({ setPage, setSelectedListing }) {
   const {
-    filteredListings, searchQuery, setSearchQuery,
+    Listings, searchQuery, setSearchQuery,
     selectedCategory, setSelectedCategory,
     selectedCity, setSelectedCity,
     sortBy, setSortBy
@@ -111,7 +111,7 @@ export default function ListingsPage({ setPage, setSelectedListing }) {
                 gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
                 gap: 20
               }}>
-                {filteredListings.map(l => (
+                {Listings.map(l => (
                   <ListingCard key={l.id} listing={l} onClick={() => {
                     setSelectedListing(l);
                     setPage('listing-detail');
