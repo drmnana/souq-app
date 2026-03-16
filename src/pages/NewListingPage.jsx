@@ -62,9 +62,15 @@ export default function NewListingPage({ setPage }) {
     }
     setError('');
     try {
+      const toInt = (v) => v === '' || v === null || v === undefined ? null : parseInt(v);
       await addListing({
         ...form,
         price: parseFloat(form.price) || 0,
+        area: toInt(form.area),
+        rooms: toInt(form.rooms),
+        bathrooms: toInt(form.bathrooms),
+        year: toInt(form.year),
+        mileage: toInt(form.mileage),
         images: imageUrls,
         user_id: user.id,
         seller_name: form.seller_name || profile?.name || '',

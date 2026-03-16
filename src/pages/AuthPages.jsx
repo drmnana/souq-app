@@ -23,9 +23,7 @@ export function LoginPage({ setPage }) {
       <FormField label="كلمة المرور">
         <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" style={{ direction: 'ltr' }}/>
       </FormField>
-      <div style={{ background: '#e8f5ee', border: '1px solid #c8e6d5', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: '#2e7d52', marginBottom: 16 }}>
-        💡 للتجربة: أدخل أي بريد إلكتروني وكلمة مرور. استخدم "admin@" للوصول لوحة الإدارة.
-      </div>
+
       <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: 14 }} onClick={handleLogin}>
         دخول →
       </button>
