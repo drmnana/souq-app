@@ -19,7 +19,7 @@ export default function ListingDetailPage({ listing, setPage }) {
 
   const formatPrice = (price, currency) => {
     if (!price) return 'السعر عند الاستفسار';
-    return `${price.toLocaleString('ar-SY')} ${currency === 'USD' ? 'دولار أمريكي' : 'ليرة سورية'}`;
+    return `${price.toLocaleString('en-US')} ${currency === 'USD' ? 'دولار أمريكي' : 'ليرة سورية'}`;
   };
 
   return (
@@ -90,7 +90,7 @@ export default function ListingDetailPage({ listing, setPage }) {
                   {listing.rooms && <SpecItem label="الغرف" value={`${listing.rooms} غرف`} />}
                   {listing.bathrooms && <SpecItem label="الحمامات" value={listing.bathrooms} />}
                   {listing.year && <SpecItem label="سنة الصنع" value={listing.year} />}
-                  {listing.mileage && <SpecItem label="المسافة" value={`${listing.mileage?.toLocaleString()} كم`} />}
+                  {listing.mileage && <SpecItem label="المسافة" value={`${listing.mileage?.toLocaleString('en-US')} كم`} />}
                   {listing.color && <SpecItem label="اللون" value={listing.color} />}
                 </div>
               )}

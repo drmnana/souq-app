@@ -6,7 +6,7 @@ export default function ListingCard({ listing, onClick }) {
 
   const formatPrice = (price, currency) => {
     if (!price) return 'السعر عند الاستفسار';
-    return `${price.toLocaleString('ar-SY')} ${currency === 'USD' ? 'دولار' : 'ل.س'}`;
+    return `${price.toLocaleString('en-US')} ${currency === 'USD' ? 'دولار' : 'ل.س'}`;
   };
 
   const timeAgo = (dateStr) => {
@@ -110,7 +110,7 @@ export default function ListingCard({ listing, onClick }) {
         {listing.category === 'cars' && (
           <div style={{ marginTop: 8, display: 'flex', gap: 12, fontSize: 12, color: '#666' }}>
             {listing.year && <span>📅 {listing.year}</span>}
-            {listing.mileage && <span>🛣 {listing.mileage?.toLocaleString()} كم</span>}
+            {listing.mileage && <span>🛣 {listing.mileage?.toLocaleString('en-US')} كم</span>}
             {listing.color && <span>🎨 {listing.color}</span>}
           </div>
         )}

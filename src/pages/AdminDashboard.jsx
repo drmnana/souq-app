@@ -31,7 +31,7 @@ export default function AdminDashboard({ setPage, setSelectedListing }) {
     { icon: '📋', label: 'إعلانات نشطة', value: listings.length, color: 'var(--brand-primary)' },
     { icon: '⏳', label: 'قيد المراجعة', value: pendingListings.length, color: '#e65100' },
     { icon: '👥', label: 'المستخدمون', value: stats?.totalUsers || 0, color: '#1565c0' },
-    { icon: '👁', label: 'إجمالي المشاهدات', value: (stats?.totalViews || 0).toLocaleString(), color: '#6a1b9a' },
+    { icon: '👁', label: 'إجمالي المشاهدات', value: (stats?.totalViews || 0).toLocaleString('en-US'), color: '#6a1b9a' },
   ];
 
   return (
@@ -88,7 +88,7 @@ export default function AdminDashboard({ setPage, setSelectedListing }) {
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{l.title}</div>
                   <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>
-                    📍 {l.location} | 💰 {l.price?.toLocaleString()} {l.currency === 'USD' ? '$' : 'ل.س'} | 👤 {l.profiles?.name || l.seller_name}
+                    📍 {l.location} | 💰 {l.price?.toLocaleString('en-US')} {l.currency === 'USD' ? '$' : 'ل.س'} | 👤 {l.profiles?.name || l.seller_name}
                   </div>
                   <div style={{ fontSize: 12, color: '#888', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{l.description}</div>
                 </div>
@@ -161,7 +161,7 @@ export default function AdminDashboard({ setPage, setSelectedListing }) {
                         onClick={() => { setSelectedListing(l); setPage('listing-detail'); }}>
                         <td style={{ padding: '10px 12px', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{l.title}</td>
                         <td style={{ padding: '10px 12px' }}><span className="badge badge-green">{CATEGORIES.find(c=>c.id===l.category)?.label}</span></td>
-                        <td style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--brand-primary)' }}>{l.price?.toLocaleString()} {l.currency==='USD'?'$':'ل.س'}</td>
+                        <td style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--brand-primary)' }}>{l.price?.toLocaleString('en-US')} {l.currency==='USD'?'$':'ل.س'}</td>
                         <td style={{ padding: '10px 12px' }}>{l.location}</td>
                         <td style={{ padding: '10px 12px' }}>👁 {l.views}</td>
                         <td style={{ padding: '10px 12px' }}>
@@ -216,7 +216,7 @@ export default function AdminDashboard({ setPage, setSelectedListing }) {
                 {[
                   { label: 'مرحلة مجانية', value: 'سنة كاملة', sub: 'لبناء الجمهور' },
                   { label: 'عدد الإعلانات الحالي', value: listings.length, sub: 'إعلان نشط' },
-                  { label: 'إيراد متوقع (سنة 2)', value: `$${(listings.length * 15 * 0.3 * 12).toLocaleString()}`, sub: 'بنسبة تحويل 30%' },
+                  { label: 'إيراد متوقع (سنة 2)', value: `$${(listings.length * 15 * 0.3 * 12).toLocaleString('en-US')}`, sub: 'بنسبة تحويل 30%' },
                 ].map(s => (
                   <div key={s.label}>
                     <div style={{ color: '#aaa', fontSize: 12, marginBottom: 4 }}>{s.label}</div>
