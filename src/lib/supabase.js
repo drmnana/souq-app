@@ -231,21 +231,29 @@ export const adminService = {
 
 // ─── CATEGORIES & CONSTANTS ───────────────────────────────────────────────────
 export const CATEGORIES = [
-  { id: 'real-estate', label: 'عقارات', icon: '🏠', color: '#1a5f3f',
+  { id: 'real-estate', label: 'عقارات', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13L16 4l12 9v13a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M12 30V18h8v12"/></svg>`,
     subcategories: ['شقة', 'فيلا', 'أرض', 'محل تجاري', 'مكتب', 'مستودع'] },
-  { id: 'cars', label: 'سيارات', icon: '🚗', color: '#1565c0',
+  { id: 'cars', label: 'سيارات', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="11" width="28" height="12" rx="3"/><circle cx="9" cy="23" r="3"/><circle cx="23" cy="23" r="3"/><path d="M2 17h28M9 11l3-5h8l3 5"/><path d="M2 14h3M27 14h3"/></svg>`,
     subcategories: ['سيدان', 'SUV', 'بيكأب', 'فان', 'دراجة نارية'] },
-  { id: 'electronics', label: 'إلكترونيات', icon: '📱', color: '#6a1b9a',
+  { id: 'electronics', label: 'إلكترونيات', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="14" height="24" rx="3"/><circle cx="16" cy="23" r="1.5" fill="#1a2e5a"/><path d="M12 7h8M12 11h6"/></svg>`,
     subcategories: ['هواتف', 'لابتوب', 'تلفزيون', 'كاميرات', 'أجهزة منزلية'] },
-  { id: 'furniture', label: 'أثاث', icon: '🛋️', color: '#e65100',
+  { id: 'furniture', label: 'أثاث', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="16" width="26" height="8" rx="2"/><rect x="6" y="10" width="8" height="8" rx="1"/><rect x="18" y="10" width="8" height="8" rx="1"/><path d="M7 24v4M25 24v4M3 20h26"/></svg>`,
     subcategories: ['غرف نوم', 'صالون', 'مطبخ', 'مكتبي', 'متنوع'] },
-  { id: 'jobs', label: 'وظائف', icon: '💼', color: '#00838f',
+  { id: 'jobs', label: 'وظائف', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="26" height="18" rx="2"/><path d="M11 10V7a2 2 0 012-2h6a2 2 0 012 2v3"/><path d="M3 18h26M16 14v8M12 18h8"/></svg>`,
     subcategories: ['هندسة', 'تجارة', 'تعليم', 'صحة', 'تقنية', 'عمال'] },
-  { id: 'services', label: 'خدمات', icon: '🔧', color: '#558b2f',
+  { id: 'services', label: 'خدمات', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M27 5l-4 4-3-3 4-4a7 7 0 00-9 9L5 21a3 3 0 004 4l10-10a7 7 0 009-10z"/></svg>`,
     subcategories: ['نقل', 'تصليح', 'تنظيف', 'بناء', 'تصميم'] },
-  { id: 'fashion', label: 'ملابس وأزياء', icon: '👗', color: '#ad1457',
+  { id: 'fashion', label: 'ملابس وأزياء', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-8 6v5h5v17h14V13h5V8l-8-6c0 3-3 5-4 5s-4-2-4-5z"/></svg>`,
     subcategories: ['رجالي', 'نسائي', 'أطفال', 'إكسسوارات'] },
-  { id: 'other', label: 'متنوعات', icon: '📦', color: '#546e7a',
+  { id: 'other', label: 'متنوعات', color: '#1a2e5a',
+    svg: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1a2e5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="11" height="11" rx="2"/><rect x="18" y="3" width="11" height="11" rx="2"/><rect x="3" y="18" width="11" height="11" rx="2"/><rect x="18" y="18" width="11" height="11" rx="2"/></svg>`,
     subcategories: ['متنوع'] }
 ];
 
