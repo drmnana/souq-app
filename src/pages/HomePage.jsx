@@ -21,7 +21,7 @@ export default function HomePage({ setPage, setSelectedListing }) {
     <div className="page-enter">
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, var(--bg-dark) 0%, #1a3a2a 60%, #0f2419 100%)',
+        background: 'linear-gradient(135deg, var(--bg-dark) 0%, #1a2e5a 60%, #0d1b3e 100%)',
         padding: '70px 0 60px',
         position: 'relative', overflow: 'hidden'
       }}>

@@ -10,10 +10,13 @@ export default function Footer({ setPage }) {
           <div>
             <div style={{
               fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 22, color: 'white', marginBottom: 10
-            }}>🟡 سوق سوريا</div>
+              fontSize: 26, marginBottom: 10
+            }}>
+              <span style={{ color: 'white' }}>إعلانات</span>
+              <span style={{ color: 'var(--brand-accent)' }}>+</span>
+            </div>
             <p style={{ fontSize: 13, lineHeight: 1.8 }}>
-              المنصة الأولى للإعلانات المبوبة في سوريا. نربط البائعين بالمشترين بكل شفافية.
+              المنصة الأولى للإعلانات المبوبة في سوريا. نربط البائعين بالمشترين بكل شفافية وأمان.
             </p>
           </div>
           <div>
@@ -22,8 +25,7 @@ export default function Footer({ setPage }) {
               <div key={c} style={{ marginBottom: 6 }}>
                 <button onClick={() => setPage('listings')} style={{
                   background: 'none', border: 'none', color: '#999',
-                  cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 13,
-                  padding: 0, transition: 'color 0.2s'
+                  cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 13, padding: 0
                 }}
                 onMouseEnter={e => e.target.style.color = 'white'}
                 onMouseLeave={e => e.target.style.color = '#999'}>{c}</button>
@@ -31,31 +33,33 @@ export default function Footer({ setPage }) {
             ))}
           </div>
           <div>
-            <h4 style={{ color: 'white', fontFamily: 'var(--font-body)', fontWeight: 700, marginBottom: 12 }}>روابط</h4>
+            <h4 style={{ color: 'white', fontFamily: 'var(--font-body)', fontWeight: 700, marginBottom: 12 }}>روابط سريعة</h4>
             {[
               { label: 'الرئيسية', page: 'home' },
-              { label: 'الإعلانات', page: 'listings' },
-              { label: 'أضف إعلان', page: 'new-listing' },
+              { label: 'جميع الإعلانات', page: 'listings' },
+              { label: 'أضف إعلانك', page: 'new-listing' },
             ].map(l => (
               <div key={l.label} style={{ marginBottom: 6 }}>
                 <button onClick={() => setPage(l.page)} style={{
                   background: 'none', border: 'none', color: '#999',
                   cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 13, padding: 0
-                }}>{l.label}</button>
+                }}
+                onMouseEnter={e => e.target.style.color = 'white'}
+                onMouseLeave={e => e.target.style.color = '#999'}>{l.label}</button>
               </div>
             ))}
           </div>
           <div>
             <h4 style={{ color: 'white', fontFamily: 'var(--font-body)', fontWeight: 700, marginBottom: 12 }}>تواصل معنا</h4>
-            <p style={{ fontSize: 13, lineHeight: 1.8 }}>
-              📧 info@souq-syria.com<br/>
-              💬 واتساب: +963 XXX XXX XXX<br/>
-              🌐 جميع المحافظات السورية
+            <p style={{ fontSize: 13, lineHeight: 2 }}>
+              📧 info@i3lanatplus.com<br/>
+              🌐 i3lanatplus.com<br/>
+              🇸🇾 جميع المحافظات السورية
             </p>
           </div>
         </div>
-        <div style={{ borderTop: '1px solid #333', paddingTop: 20, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
-          <span style={{ fontSize: 13 }}>© 2025 سوق سوريا — جميع الحقوق محفوظة</span>
+        <div style={{ borderTop: '1px solid #222', paddingTop: 20, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+          <span style={{ fontSize: 13 }}>© 2025 إعلانات+ — جميع الحقوق محفوظة</span>
           <span style={{ fontSize: 13 }}>🇸🇾 صُنع من أجل سوريا الجديدة</span>
         </div>
       </div>

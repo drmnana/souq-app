@@ -3,7 +3,6 @@ import { useApp } from '../AppContext';
 
 export default function Navbar({ page, setPage }) {
   const { user, profile, logout } = useApp();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav style={{
@@ -16,27 +15,29 @@ export default function Navbar({ page, setPage }) {
         display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', padding: '0 20px', height: 64
       }}>
+
         {/* Logo */}
         <button onClick={() => setPage('home')} style={{
           background: 'none', border: 'none', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', gap: 8
+          display: 'flex', alignItems: 'center', gap: 10
         }}>
-          <div style={{
-            background: 'var(--brand-accent)',
-            color: 'white', width: 38, height: 38,
-            borderRadius: 8, display: 'flex', alignItems: 'center',
-            justifyContent: 'center', fontSize: 20, fontWeight: 900,
-            fontFamily: 'var(--font-display)'
-          }}>س</div>
+          {/* Bubble icon */}
+          <div style={{ position: 'relative', width: 38, height: 38 }}>
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+              <path d="M4 4 Q4 0 8 0 L30 0 Q34 0 34 4 L34 26 Q34 30 30 30 L22 30 L19 38 L16 30 L8 30 Q4 30 4 26 Z" fill="#2a4a8a"/>
+              <text x="19" y="21" textAnchor="middle" fontSize="18" fontWeight="900" fill="#f0b429" fontFamily="Arial">+</text>
+            </svg>
+          </div>
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 22, color: 'white', letterSpacing: '-0.5px'
-          }}>سوق سوريا</span>
+            fontSize: 22, color: 'white'
+          }}>
+            إعلانات<span style={{ color: 'var(--brand-accent)' }}>+</span>
+          </span>
         </button>
 
         {/* Desktop Nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-             className="desktop-nav">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }} className="desktop-nav">
           <NavBtn active={page === 'home'} onClick={() => setPage('home')}>الرئيسية</NavBtn>
           <NavBtn active={page === 'listings'} onClick={() => setPage('listings')}>الإعلانات</NavBtn>
           {user && <NavBtn active={page === 'my-listings'} onClick={() => setPage('my-listings')}>إعلاناتي</NavBtn>}
@@ -80,9 +81,7 @@ export default function Navbar({ page, setPage }) {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-        }
+        @media (max-width: 768px) { .desktop-nav { display: none !important; } }
       `}</style>
     </nav>
   );

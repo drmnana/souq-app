@@ -3,20 +3,20 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --brand-primary: #1a5f3f;
-  --brand-secondary: #2d8a5e;
-  --brand-accent: #f5a623;
-  --brand-accent-dark: #e0911a;
-  --bg-main: #f7f5f0;
+  --brand-primary: #1a2e5a;
+  --brand-secondary: #2a4a8a;
+  --brand-accent: #f0b429;
+  --brand-accent-dark: #d49a1a;
+  --bg-main: #f5f6f8;
   --bg-card: #ffffff;
-  --bg-dark: #0f2419;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555;
+  --bg-dark: #0d1b3e;
+  --text-primary: #1a1a2e;
+  --text-secondary: #444;
   --text-muted: #888;
-  --border: #e0ddd8;
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
+  --border: #e0e4ed;
+  --shadow-sm: 0 2px 8px rgba(26,46,90,0.08);
+  --shadow-md: 0 4px 20px rgba(26,46,90,0.12);
+  --shadow-lg: 0 8px 40px rgba(26,46,90,0.18);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -34,13 +34,12 @@ body {
   font-size: 16px;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-main); }
 ::-webkit-scrollbar-thumb { background: var(--brand-secondary); border-radius: 3px; }
 
-/* Utilities */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
 .btn-primary {
   background: var(--brand-primary);
   color: white;
@@ -60,7 +59,7 @@ body {
 
 .btn-accent {
   background: var(--brand-accent);
-  color: white;
+  color: var(--brand-primary);
   border: none;
   padding: 12px 28px;
   border-radius: var(--radius-sm);
@@ -104,23 +103,14 @@ input, select, textarea {
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--brand-secondary);
-  box-shadow: 0 0 0 3px rgba(45,138,94,0.1);
+  box-shadow: 0 0 0 3px rgba(42,74,138,0.1);
 }
 
-.badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.badge-green { background: #e8f5ee; color: var(--brand-primary); }
-.badge-orange { background: #fff3e0; color: #e65100; }
-.badge-blue { background: #e3f2fd; color: #1565c0; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-green { background: #e8eef8; color: var(--brand-primary); }
+.badge-orange { background: #fff8e0; color: #b8860b; }
+.badge-blue { background: #e8eef8; color: var(--brand-secondary); }
 
 @keyframes fadeIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
-@keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
 .fade-in { animation: fadeIn 0.4s ease forwards; }
-
-/* Page transitions */
 .page-enter { animation: fadeIn 0.35s ease; }
